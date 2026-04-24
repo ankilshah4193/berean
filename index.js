@@ -37,31 +37,31 @@ const toTitleCase = (str) => {
 // If a language isn't in this map, we fall back to the English name and also ask
 // the LLM (in the prompt) to use the native script in its own heading.
 const NATIVE_LANG_NAMES = {
-  'gujarati':         'ગુજરાતી દ્રષ્ટિકોણ',
-  'hindi':            'हिंदी दृष्टिकोण',
-  'marathi':          'मराठी दृष्टिकोन',
-  'bengali':          'বাংলা দৃষ্টিকোণ',
-  'tamil':            'தமிழ் பார்வை',
-  'telugu':           'తెలుగు దృక్కోణం',
-  'kannada':          'ಕನ್ನಡ ದೃಷ್ಟಿಕೋನ',
-  'malayalam':        'മലയാളം കാഴ്ചപ്പാട്',
-  'punjabi':          'ਪੰਜਾਬੀ ਦ੍ਰਿਸ਼ਟੀਕੋਣ',
-  'sanskrit':         'संस्कृत दृष्टिकोणम्',
-  'urdu':             'اردو نقطہ نظر',
-  'arabic':           'المنظور العربي',
-  'spanish':          'Perspectiva en Español',
-  'french':           'Perspective Française',
-  'german':           'Deutsche Perspektive',
-  'italian':          'Prospettiva Italiana',
-  'portuguese':       'Perspectiva em Português',
-  'russian':          'Русская перспектива',
-  'japanese':         '日本語の視点',
+  'gujarati': 'ગુજરાતી દ્રષ્ટિકોણ',
+  'hindi': 'हिंदी दृष्टिकोण',
+  'marathi': 'मराठी दृष्टिकोन',
+  'bengali': 'বাংলা দৃষ্টিকোণ',
+  'tamil': 'தமிழ் பார்வை',
+  'telugu': 'తెలుగు దృక్కోణం',
+  'kannada': 'ಕನ್ನಡ ದೃಷ್ಟಿಕೋನ',
+  'malayalam': 'മലയാളം കാഴ്ചപ്പാട്',
+  'punjabi': 'ਪੰਜਾਬੀ ਦ੍ਰਿਸ਼ਟੀਕੋਣ',
+  'sanskrit': 'संस्कृत दृष्टिकोणम्',
+  'urdu': 'اردو نقطہ نظر',
+  'arabic': 'المنظور العربي',
+  'spanish': 'Perspectiva en Español',
+  'french': 'Perspective Française',
+  'german': 'Deutsche Perspektive',
+  'italian': 'Prospettiva Italiana',
+  'portuguese': 'Perspectiva em Português',
+  'russian': 'Русская перспектива',
+  'japanese': '日本語の視点',
   'mandarin_chinese': '中文视角',
-  'chinese':          '中文视角',
-  'korean':           '한국어 관점',
-  'english':          'English Perspective',
-  'tagalog':          'Tagalog na Pananaw',
-  'swahili':          'Mtazamo wa Kiswahili',
+  'chinese': '中文视角',
+  'korean': '한국어 관점',
+  'english': 'English Perspective',
+  'tagalog': 'Tagalog na Pananaw',
+  'swahili': 'Mtazamo wa Kiswahili',
 };
 
 // Maps the user-facing language name (what they type with --lang) to the actual
@@ -150,11 +150,11 @@ const classifyError = (error) => {
   if (status === 401 || status === 403 || msg.includes('invalid api key') || msg.includes('unauthorized')) return 'auth';
   if (status === 429 || msg.includes('rate limit') || msg.includes('too many requests')) return 'rate';
   if (msg.includes('enotfound') || msg.includes('econnrefused') || msg.includes('econnreset') ||
-      msg.includes('etimedout') || msg.includes('fetch failed') || msg.includes('network')) return 'network';
+    msg.includes('etimedout') || msg.includes('fetch failed') || msg.includes('network')) return 'network';
   if (msg.includes('local database') || msg.includes('verse_embeddings') ||
-      msg.includes('unexpected token') && msg.includes('json')) return 'db';
+    msg.includes('unexpected token') && msg.includes('json')) return 'db';
   if (msg.includes('xenova') || msg.includes('transformers') || msg.includes('onnxruntime') ||
-      msg.includes('model') && msg.includes('download')) return 'model';
+    msg.includes('model') && msg.includes('download')) return 'model';
   if (msg.includes('empty response') || msg.includes('no content')) return 'empty';
   return 'unknown';
 };
@@ -271,24 +271,24 @@ const renderVerseOnly = (matchedVerse, prefLang, reason = 'offline') => {
 
   // Banner message for each reason. Keep these short, friendly, and honest.
   const banners = {
-    offline:    '⚠️  No Internet Connection Detected.',
-    rate:       '⚠️  Groq is rate-limiting this key right now.',
-    auth:       '⚠️  Groq rejected the API key.',
-    network:    '⚠️  Cannot reach Groq right now.',
-    empty:      '⚠️  Groq returned an empty response.',
+    offline: '⚠️  No Internet Connection Detected.',
+    rate: '⚠️  Groq is rate-limiting this key right now.',
+    auth: '⚠️  Groq rejected the API key.',
+    network: '⚠️  Cannot reach Groq right now.',
+    empty: '⚠️  Groq returned an empty response.',
   };
   const explanations = {
     offline: 'Berean is running in Offline Mode. AI mentor commentary is disabled, but here is your guiding verse:',
-    rate:    'AI mentor commentary is disabled for this request. Here is your guiding verse from the local database:',
-    auth:    'AI mentor commentary is disabled until the key is updated. Here is your guiding verse from the local database:',
+    rate: 'AI mentor commentary is disabled for this request. Here is your guiding verse from the local database:',
+    auth: 'AI mentor commentary is disabled until the key is updated. Here is your guiding verse from the local database:',
     network: 'AI mentor commentary is disabled for this request. Here is your guiding verse from the local database:',
-    empty:   'AI mentor commentary is unavailable for this request. Here is your guiding verse from the local database:',
+    empty: 'AI mentor commentary is unavailable for this request. Here is your guiding verse from the local database:',
   };
 
   console.log(chalk.yellow(banners[reason] || banners.offline));
   console.log(bodyText((explanations[reason] || explanations.offline) + '\n'));
 
-  console.log(gold(`Wisdom from Book ${matchedVerse.book}: Chapter ${matchedVerse.chapter_number}, Verse ${matchedVerse.verse_number}`));
+  console.log(gold(`Wisdom from ${matchedVerse.book}: Chapter ${matchedVerse.chapter_number}, Verse ${matchedVerse.verse_number}`));
   console.log(chalk.white("--------------------------------------------------"));
   console.log(subTitleColor("English Text:"));
   console.log(bodyText(matchedVerse.english_text));
@@ -338,7 +338,7 @@ const renderVerseOnly = (matchedVerse, prefLang, reason = 'offline') => {
 
 program
   .version(pkg.version)
-  .description('Bridge to Wisdom: Bible Verses for 21st Century Challenges (English + Preferred Language).')
+  .description('Bible verses for 21st century challenges (English + Preferred Language).')
   .argument('[cmd]', 'Run a specific command (e.g., "random")')
   .option('-t, --topic <query>', 'Ask your life question in English')
   .option('--lang <language>', 'Change your preferred language preference')
@@ -410,7 +410,7 @@ program
 
       if (!config.PREFERRED_LANGUAGE) {
         console.log("");
-        const userLang = await ask("Step 2 of 2: What is your preferred language for the answers? (e.g., English, Spanish, French): ");
+        const userLang = await ask("Step 2 of 2: What is your preferred language for the answers? (e.g., Spanish, French, Portuguese): ");
         config.PREFERRED_LANGUAGE = toTitleCase(userLang.trim()) || 'English';
       }
 
@@ -428,9 +428,9 @@ program
     // If they didn't provide a topic AND they didn't type "random", show the help menu.
     if (!options.topic && !isRandomMode) {
       const label = chalk.cyan;           // command text
-      const hint  = chalk.white.dim;      // description text
-      const head  = chalk.yellow.bold;    // section headers
-      const rule  = chalk.white.dim('─'.repeat(54));
+      const hint = chalk.white.dim;      // description text
+      const head = chalk.yellow.bold;    // section headers
+      const rule = chalk.white.dim('─'.repeat(54));
 
       // Small helper to keep columns aligned regardless of command length.
       // COL is sized to fit the longest command (~32 chars) plus a 2-space gutter.
@@ -438,23 +438,23 @@ program
       const row = (cmdStr, desc) => '  ' + label(cmdStr.padEnd(COL)) + hint(desc);
 
       console.log();
-      console.log(chalk.yellow.bold('📖 Berean') + chalk.white.dim('  ·  Bible Verses for 21st Century Challenges'));
+      console.log(chalk.yellow.bold('📖  Berean') + chalk.white.dim('  ·  Bible Verses for 21st Century Challenges'));
       console.log(rule);
 
       console.log(head('\nASK'));
-      console.log(row('berean -t "<question>"',  'Get guidance for your situation'));
-      console.log(row('berean random',           'Draw a random verse of the day'));
+      console.log(row('berean -t "<question>"', 'Get guidance for your situation'));
+      console.log(row('berean random', 'Draw a random verse of the day'));
 
       console.log(head('\nSETTINGS'));
-      console.log(row(' --lang "<language>"',  'Change your output language'));
-      console.log(row('berean --key "gsk_..."',  'Update your Groq API key'));
-      console.log(row('berean --key',            '…or set one interactively (opens browser)'));
-      console.log(row('berean --version',        'Show the installed version'));
+      console.log(row('berean --lang "<language>"', 'Change your output language'));
+      console.log(row('berean --key "gsk_..."', 'Update your Groq API key'));
+      console.log(row('berean --key', '…or set one interactively (opens browser)'));
+      console.log(row('berean --version', 'Show the installed version'));
 
       console.log(head('\nEXAMPLES'));
       console.log(row('berean -t "I feel burnt out"', ''));
       console.log(row('berean -t "afraid of failing"', ''));
-      console.log(row('berean --lang "Spanish"',     ''));
+      console.log(row('berean --lang "Spanish"', ''));
 
       console.log(head('\nCURRENT SETUP'));
       console.log('  ' + hint('Language : ') + chalk.white(prefLang));
@@ -557,8 +557,8 @@ program
         : `"${options.topic}"`;
 
       const empathyInstructions = isRandomMode
-        ? "**Empathy:** [Provide a warm, grounding thought for the day in a detailed 3-line paragraph. Do not reference a specific struggle.]"
-        : "**Empathy:** [Acknowledge their specific situation in a detailed 3-line paragraph]";
+        ? "[Open with 2-3 grounding sentences for the day, written directly to the reader. Do not use a header for this — it should read as the natural opening of the section, not a labeled subheader. Do not reference a specific struggle.]"
+        : "[Open with 2-3 sentences acknowledging the reader's specific situation, written directly to them. Do not use a header for this — it should read as the natural opening of the section, not a labeled subheader.]";
 
       // Resolve the second section's heading.
       // Mapped languages (Gujarati, Hindi, Spanish, ...) come back in native script and are used verbatim.
@@ -572,7 +572,7 @@ program
         : `The second heading "### ${secondHeading}" is currently in English as a placeholder. Replace it with the equivalent phrase in the native script of ${prefLang} (meaning "${prefLang} Perspective" translated into ${prefLang}'s own script). If ${prefLang} is typically written in Latin script, keep the phrase in ${prefLang} but in Latin script. Use the translated heading consistently in BOTH places where the "${secondHeading}" heading appears below.`;
 
       const systemPrompt = `
-      You are a linguistic scholar, a philosopher, and a pastor with profound knowledge of the Bible.
+      You are a biblical scholar, a thoughtful theologian, and a pastoral guide with profound knowledge of the Bible.
 
       User Input: ${simulatedUserInput}
       Most Relevant Verse: Book ${matchedVerse.book}, Chapter ${matchedVerse.chapter_number}, Verse ${matchedVerse.verse_number}
@@ -583,23 +583,25 @@ program
       ${headingInstruction}
 
       Under "### English Perspective":
-      **English Verse:** [Provide original English text of the Verse]
+      **English Verse:** [Provide the English text of the verse exactly as given above.]
       ${empathyInstructions}
-      **Connection:** [Explain the cosmic narrative from the Bible in a detailed 2-3 line paragraph]
-      **Practical Wisdom:** [Provide a modern mental hack or vibe shift in a detailed 2-3 line paragraph]
-      **Next Action:** [Provide a high-energy practical step or reflection in a detailed 2-3 line paragraph]
+      **Connection:** Place this verse in its biblical context and explain what spiritual question it speaks to. Address the reader as "you." (2-3 sentences)
+      **Practical Wisdom:** Translate the verse's teaching into a concrete cognitive reframe the reader can apply today. Address them as "you." (2-3 sentences)
+      **Next Action:** Suggest one small, specific thing the reader can do in the next 24 hours that embodies the verse's wisdom. Address them as "you." (2-3 sentences)
 
       Under the second section heading:
-      Translate ALL the subheaders themselves into ${prefLang} (e.g., **Verso en Sánscrito:**, **Empatía:**, etc.).
-      1. Provide the Sanskrit under the translated Sanskrit subheader.
-      3. Provide ONLY the ${prefLang} translation of the verse under the translated Translation subheader.
-      4. Provide the fully translated commentary sections under their respective translated subheaders.
+      Translate ALL the subheaders themselves into ${prefLang} (e.g., **Versículo (Español):**, **Conexión:**, etc.). Do not add a header for the opening acknowledgment paragraph — it has no header in the English section either.
+      1. Provide the ${prefLang} translation of the verse under the translated Verse subheader.
+      2. Provide the fully translated commentary sections under their respective translated subheaders, including the unlabeled opening acknowledgment paragraph.
 
       STRICT RULES:
-      - Do not cross translations (no English verse translation in the ${prefLang} section, and vice versa).
-      - Ensure EVERY subheader is wrapped in double asterisks like **This**.
+      - Do not cross translations: no English commentary in the ${prefLang} section, and no ${prefLang} commentary in the English section.
+      - Every subheader must be wrapped in double asterisks like **This**.
       - The English heading must stay EXACTLY as "### English Perspective".
-      - DO NOT use em-dashes (—) anywhere in your response. Use commas, colons, or periods instead.
+      - The opening acknowledgment paragraph MUST NOT have a header. Start the section with the paragraph itself, then move to **Verse (English):**. Same structure in the second-language section.
+      - Do not include any [bracketed instructions] from this prompt in your output.
+      - Do not begin Connection, Practical Wisdom, or Next Action with "This verse..." — begin with the spiritual concept itself.
+      - Do NOT use em-dashes (—) anywhere in your response. Use commas, colons, or periods instead.
       - Keep the language simple and avoid complex vocabulary.
       `;
 
@@ -630,7 +632,7 @@ program
       }
 
       // --- 8. FINAL OUTPUT ---
-      console.log(gold(`Wisdom from ${matchedVerse.book}: Chapter ${matchedVerse.chapter_number}, Verse ${matchedVerse.verse_number}`));
+      console.log(gold(`Wisdom from the Holy Bible: ${matchedVerse.book} ${matchedVerse.chapter}:${matchedVerse.verse}`));
       console.log(chalk.white("--------------------------------------------------\n"));
 
       let coloredResponse = rawResponse.split('\n').map(line => {

@@ -11,8 +11,8 @@ const dim = "\x1b[2m";
 
 console.log("\n");
 // Dynamically uses the version from package.json
-console.log(green + bold + `  Berean (v${pkg.version}) installed successfully!` + reset);
-console.log(dim + "  Bible learnings dynamically tailored to modern developer burnout." + reset);
+console.log(green + bold + `  📖 Berean (v${pkg.version}) installed successfully!` + reset);
+console.log(dim + "  Bible wisdom dynamically tailored to modern developer burnout." + reset);
 console.log("\n  " + cyan + bold + "GETTING STARTED" + reset);
 console.log("  " + "--------------------------------------------------");
 console.log("  " + bold + "1. Setup:   " + reset + "berean" + dim + " (starts the wizard)" + reset);
@@ -20,6 +20,6 @@ console.log("  " + bold + "2. Ask:     " + reset + 'berean -t "I feel burnt out"
 console.log("  " + bold + "3. Ground:  " + reset + "berean random" + dim + " (daily verse)" + reset);
 console.log("  " + "--------------------------------------------------");
 console.log("\n  " + cyan + bold + "HELPFUL COMMANDS" + reset);
-console.log("  " + bold + "--lang" + reset + "       Change your language (e.g., " + yellow + "berean --lang spanish" + reset + ")");
+console.log("  " + bold + "--lang" + reset + "       Change your language (e.g., " + yellow + 'berean --lang "Spanish"' + reset + ")");
 console.log("  " + bold + "--key" + reset + "        Update your Groq API key manually");
 console.log("  " + "--------------------------------------------------\n");
