@@ -7,7 +7,7 @@
 
 Berean is a lightweight, high-performance CLI tool designed to help developers navigate burnout, stress, and life's complex decisions through Scripture. It utilizes a **Hybrid RAG (Retrieval-Augmented Generation) Architecture**: performing zero-latency semantic search locally, followed by high-speed inference via the Groq API to provide a customized, bilingual response.
 
-Named after the Bereans of Acts 17:11, who *"searched the Scriptures daily"* to examine what they were taught — this CLI brings that same daily habit of searching the Word into your terminal.
+Named after the Bereans of Acts 17:11, who "searched the Scriptures daily" to examine what they were taught .. this CLI brings that same daily habit of searching the Word into your terminal.
 
 ---
 
