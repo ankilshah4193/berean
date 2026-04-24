@@ -632,7 +632,7 @@ program
       }
 
       // --- 8. FINAL OUTPUT ---
-      console.log(gold(`Wisdom from the Holy Bible: ${matchedVerse.book} ${matchedVerse.chapter}:${matchedVerse.verse}`));
+      console.log(gold(`Wisdom from the Holy Bible: ${matchedVerse.book} ${matchedVerse.chapter_number}:${matchedVerse.verse_number}`));
       console.log(chalk.white("--------------------------------------------------\n"));
 
       let coloredResponse = rawResponse.split('\n').map(line => {
