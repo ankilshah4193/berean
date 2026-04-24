@@ -57,11 +57,25 @@ const NATIVE_LANG_NAMES = {
   'russian':          'Русская перспектива',
   'japanese':         '日本語の視点',
   'mandarin_chinese': '中文视角',
+  'chinese':          '中文视角',
   'korean':           '한국어 관점',
   'english':          'English Perspective',
   'tagalog':          'Tagalog na Pananaw',
   'swahili':          'Mtazamo wa Kiswahili',
 };
+
+// Maps the user-facing language name (what they type with --lang) to the actual
+// key used in verse_embeddings.json, when the two differ.
+// Extend this whenever the data file uses a legacy/alternate key name.
+// Example: a user running `berean --lang Chinese` looks up the verse's
+// `mandarin_chinese` field via this alias, without us having to rewrite the data.
+const DATA_KEY_ALIASES = {
+  'chinese': 'mandarin_chinese',
+};
+
+// Resolves a lowercase language name to the key that actually exists in the
+// verse_embeddings.json data file. Falls back to the input if no alias is set.
+const resolveDataKey = (langKey) => DATA_KEY_ALIASES[langKey] || langKey;
 
 // Returns the section heading for the preferred language along with a flag
 // indicating whether the heading is already in that language's native script.
@@ -280,16 +294,26 @@ const renderVerseOnly = (matchedVerse, prefLang, reason = 'offline') => {
   console.log(bodyText(matchedVerse.english_text));
 
   const localLangKey = prefLang.toLowerCase();
+  const dataLangKey = resolveDataKey(localLangKey);
   // `matchedVerse` no longer carries the embedding, so we only need to exclude metadata keys.
+  // We also hide legacy data keys (e.g. mandarin_chinese) from the "available langs" list,
+  // since they're exposed to users under their canonical alias (e.g. chinese) instead.
   const excludedKeys = ['book', 'chapter_number', 'verse_number', 'english_text'];
+  const legacyDataKeys = new Set(Object.values(DATA_KEY_ALIASES));
   const availableLangs = Object.keys(matchedVerse)
-    .filter(key => !excludedKeys.includes(key))
-    .map(toTitleCase);
+    .filter(key => !excludedKeys.includes(key) && !legacyDataKeys.has(key))
+    .map(key => {
+      // Show the canonical user-facing name when a key has been aliased.
+      for (const [canonical, legacy] of Object.entries(DATA_KEY_ALIASES)) {
+        if (legacy === key) return toTitleCase(canonical);
+      }
+      return toTitleCase(key);
+    });
 
   if (localLangKey !== 'english') {
     console.log(subTitleColor(`\n${prefLang} Meaning:`));
-    if (matchedVerse[localLangKey]) {
-      console.log(bodyText(matchedVerse[localLangKey]));
+    if (matchedVerse[dataLangKey]) {
+      console.log(bodyText(matchedVerse[dataLangKey]));
     } else {
       console.log(chalk.yellow(`⚠️ Local Translation Unavailable for ${prefLang}`));
       console.log(bodyText(`The local database currently has pre-downloaded translations for: ${availableLangs.join(', ')}.`));
@@ -494,9 +518,9 @@ program
 
         const MIN_THRESHOLD = 0.25;
         if (highestScore < MIN_THRESHOLD) {
-          // Low-confidence fallback: pick the first verse rather than a hardcoded
-          // chapter/verse, since this is now a Bible-based corpus where Gita's
-          // Chapter 18 Verse 66 is no longer meaningful.
+          // Low-confidence fallback: pick the first verse. The old Bhagavad Gita
+          // Chapter 18 Verse 66 hardcode doesn't apply to a Bible corpus, and on
+          // the new schema `v.chapter`/`v.verse` don't exist anyway.
           bestMatch = verses[0];
         }
       }
@@ -566,10 +590,10 @@ program
       **Next Action:** [Provide a high-energy practical step or reflection in a detailed 2-3 line paragraph]
 
       Under the second section heading:
-      Translate ALL the subheaders themselves into ${prefLang} (e.g., **Versículo en Inglés:**, **Empatía:**, etc.).
-      1. Provide the original English verse text under the translated "English Verse" subheader.
-      2. Provide ONLY the ${prefLang} translation of the verse under the translated Translation subheader.
-      3. Provide the fully translated commentary sections under their respective translated subheaders.
+      Translate ALL the subheaders themselves into ${prefLang} (e.g., **Verso en Sánscrito:**, **Empatía:**, etc.).
+      1. Provide the Sanskrit under the translated Sanskrit subheader.
+      3. Provide ONLY the ${prefLang} translation of the verse under the translated Translation subheader.
+      4. Provide the fully translated commentary sections under their respective translated subheaders.
 
       STRICT RULES:
       - Do not cross translations (no English verse translation in the ${prefLang} section, and vice versa).
