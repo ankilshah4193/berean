@@ -438,7 +438,7 @@ program
       const row = (cmdStr, desc) => '  ' + label(cmdStr.padEnd(COL)) + hint(desc);
 
       console.log();
-      console.log(chalk.yellow.bold('berean') + chalk.white.dim('  ·  Bible Verses for 21st Century Challenges'));
+      console.log(chalk.yellow.bold('📖 Berean') + chalk.white.dim('  ·  Bible Verses for 21st Century Challenges'));
       console.log(rule);
 
       console.log(head('\nASK'));
@@ -446,7 +446,7 @@ program
       console.log(row('berean random',           'Draw a random verse of the day'));
 
       console.log(head('\nSETTINGS'));
-      console.log(row('berean --lang "<language>"',  'Change your output language'));
+      console.log(row(' --lang "<language>"',  'Change your output language'));
       console.log(row('berean --key "gsk_..."',  'Update your Groq API key'));
       console.log(row('berean --key',            '…or set one interactively (opens browser)'));
       console.log(row('berean --version',        'Show the installed version'));
