@@ -1,7 +1,7 @@
 {
   "name": "berean",
-  "version": "1.0.5",
-  "description": ".",
+  "version": "1.0.6",
+  "description": "Bible wisdom dynamically tailored to modern developer burnout.",
   "main": "index.js",
   "type": "module",
   "bin": {
